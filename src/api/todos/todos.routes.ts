@@ -1,13 +1,11 @@
-import { Router, Request, Response } from 'express';
-import {  Todos, TodoWithId } from './todos.model';
+import { Router } from 'express';
+import * as TodoHandler from './todos.handles'
+
 
 const router = Router();
 
-router.get('/', async (req: Request, res: Response<TodoWithId[]>) => {
-  const result = await Todos.find()
-  const todos = await result.toArray()
-  res.json(todos);
-});
+router.get('/',  TodoHandler.findAll);
+router.post('/',  TodoHandler.createOne);
 
 /* router.get<{}, Todo[]>('/', (req, res) => {
   res.json([
