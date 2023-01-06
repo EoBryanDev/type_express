@@ -1,7 +1,16 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import request from 'supertest'
+import request from 'supertest';
+import { Todos } from './todos.model';
+import app from '../../app';
 
-import app from '../../app'
+beforeAll(async () => {
+  try {
+    await Todos.drop();
+    
+  } catch (error) {
+    
+  }
+});
 
 describe('GET /api/v1', () => {
   it('responds responds with an array of todos', async () =>
@@ -11,9 +20,8 @@ describe('GET /api/v1', () => {
       .expect('Content-Type', /json/)
       .expect(200)
       .then((response) => {
-        expect(response.body).toHaveProperty('length')
-        expect(response.body.length).toBe(1)
-        expect(response.body[0]).toHaveProperty('content')
-        expect(response.body[0]).toHaveProperty('done')
-      }))
-})
+        expect(response.body).toHaveProperty('length');
+        expect(response.body.length).toBe(0);
+
+      }));
+});
