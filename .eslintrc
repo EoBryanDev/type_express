@@ -15,7 +15,10 @@
     "@typescript-eslint"
   ],
   "rules": {
+    "singleQuote": true,
     "comma-dangle": 0,
+    "quotes": "off",
+    "@typescript-eslint/quotes": "warn",
     "no-underscore-dangle": 0,
     "no-param-reassign": 0,
     "no-return-assign": 0,

@@ -1,0 +1,17 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import request from 'supertest'
+
+import app from '../../app'
+
+describe('GET /api/v1', () => {
+  it('responds responds with an array of todos', async () =>
+    request(app)
+      .get('/api/v1/todos')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        expect(response.body).toHaveProperty('length')
+        expect(response.body.length).toBe(1)
+      }))
+})
