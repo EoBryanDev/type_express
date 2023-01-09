@@ -33,6 +33,14 @@ router.put(
   TodoHandler.updateOne
 );
 
+router.delete(
+  '/:id',
+  validateRequest({
+    params: ParamsWithId,
+  }),
+  TodoHandler.deleteOne
+);
+
 /* router.get<{}, Todo[]>('/', (req, res) => {
   res.json([
     {

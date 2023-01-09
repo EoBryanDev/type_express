@@ -10,8 +10,7 @@ export const findAll = async (
   next: NextFunction
 ) => {
   try {
-    const result = await Todos.find();
-    const todos = await result.toArray();
+    const todos = await Todos.find().toArray();
     res.json(todos);
   } catch (error) {
     next(error)
@@ -51,9 +50,35 @@ export const findOne = async ( req: Request<ParamsWithId, TodoWithId, {}> , res:
   }
 }
 
-export const updateOne = async (req: Request<{},TodoWithId, Todo>, res: Response<TodoWithId>, next: NextFunction) => {
+export const updateOne = async (req: Request<ParamsWithId,TodoWithId, Todo>, res: Response<TodoWithId>, next: NextFunction) => {
   try {
-    
+    const result = await Todos.findOneAndUpdate({
+      _id: new ObjectId(req.params.id),
+    },{
+      $set: req.body,
+    },{
+      returnDocument: 'after',
+    })
+    if(!result.value){
+      res.status(404)
+      throw new Error(`Todo with id "${req.params.id}" was not found!`)
+    }
+    res.json(result.value)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const deleteOne = async (req: Request<ParamsWithId, {}, {}> , res: Response<{}>, next: NextFunction) => {
+  try {
+    const result = await Todos.findOneAndDelete({
+      _id: new ObjectId(req.params.id),
+    })
+    if(!result.value){
+      res.status(404)
+      throw new Error(`Todo with id "${req.params.id}" was not found!`)
+    }
+    res.status(204).end()
   } catch (error) {
     next(error)
   }
